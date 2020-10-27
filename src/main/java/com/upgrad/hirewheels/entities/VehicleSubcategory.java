@@ -14,4 +14,37 @@ public class VehicleSubcategory {
 
     @Column(length = 10, precision = 2, nullable = false)
     private float pricePerDay;
+
+    public int getVehicleSubcategoryId() {
+        return vehicleSubcategoryId;
+    }
+
+    public void setVehicleSubcategoryId(int vehicleSubcategoryId) {
+        this.vehicleSubcategoryId = vehicleSubcategoryId;
+    }
+
+    public String getVehicleSubcategoryName() {
+        return vehicleSubcategoryName;
+    }
+
+    public void setVehicleSubcategoryName(String vehicleSubcategoryName) {
+        this.vehicleSubcategoryName = vehicleSubcategoryName;
+    }
+
+    public float getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public void setPricePerDay(float pricePerDay) {
+        this.pricePerDay = pricePerDay;
+    }
+
+    @Override
+    public String toString() {
+        return "VehicleSubcategory{" +
+                "vehicleSubcategoryId=" + vehicleSubcategoryId +
+                ", vehicleSubcategoryName='" + vehicleSubcategoryName + '\'' +
+                ", pricePerDay=" + pricePerDay +
+                '}';
+    }
 }
