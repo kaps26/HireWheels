@@ -9,5 +9,5 @@ public interface UsersDao extends JpaRepository<Users, Integer> {
     public List<Users> findByFirstNameIgnoreCase(String firstName);
     public List<Users> findByFirstNameOrLastNameIgnoreCase(String firstName, String lastName);
     public List<Users> findByEmailIgnoreCase (String email);
-    public List<Users> findByMAndMobileNoIgnoreCase(char mobileNo);
+    public List<Users> findByMobileNoIgnoreCase(String mobileNo);
 }

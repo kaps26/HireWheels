@@ -25,7 +25,7 @@ public class Users {
     private String email;
 
     @Column(length = 10, nullable = false, unique = true)
-    private char mobileNo;
+    private String mobileNo;
 
     @Column(length = 10, precision = 2)
     private float walletMoney= 10000.00f;
@@ -70,11 +70,11 @@ public class Users {
         this.email = email;
     }
 
-    public char getMobileNo() {
+    public String getMobileNo() {
         return mobileNo;
     }
 
-    public void setMobileNo(char mobileNo) {
+    public void setMobileNo(String mobileNo) {
         this.mobileNo = mobileNo;
     }
 
