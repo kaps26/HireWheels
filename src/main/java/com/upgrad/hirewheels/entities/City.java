@@ -1,6 +1,7 @@
 package com.upgrad.hirewheels.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class City {
@@ -11,6 +12,9 @@ public class City {
 
     @Column(length = 50, nullable = false)
     private String cityName;
+
+    @OneToMany(mappedBy = "city")
+    private Set<Location> location;
 
     public int getCityId() {
         return cityId;
@@ -27,6 +31,7 @@ public class City {
     public void setCityName(String cityName) {
         this.cityName = cityName;
     }
+
 
     @Override
     public String toString() {

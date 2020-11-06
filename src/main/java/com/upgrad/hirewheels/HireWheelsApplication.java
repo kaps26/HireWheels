@@ -1,6 +1,8 @@
 package com.upgrad.hirewheels;
 
+import com.upgrad.hirewheels.dao.RoleDao;
 import com.upgrad.hirewheels.dao.UsersDao;
+import com.upgrad.hirewheels.entities.Role;
 import com.upgrad.hirewheels.entities.Users;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +24,7 @@ public class HireWheelsApplication {
 		UsersDao usersDao = context.getBean(UsersDao.class);
 
 		Users users1 = new Users();
+
 		users1.setFirstName("Akhil");
 		users1.setLastName("Sahu");
 		users1.setEmail("sahu.akhil1811@outlook.com");
@@ -56,6 +59,7 @@ public class HireWheelsApplication {
 		users5.setMobileNo("9907356248");
 		users5.setPassword("kapil123@");
 
+
 		//Saving all users at once
 		List<Users> usersList = new ArrayList<>();
 		usersList.add(users1);
@@ -66,28 +70,19 @@ public class HireWheelsApplication {
 		usersDao.saveAll(usersList);
 
 		//Printing All user details on Console
-		System.out.println("*****************Fetching All Users******************");
 		usersDao.findAll().forEach(users -> System.out.println(users.toString()));
 
 		//Making a paginated request to fetch a page with 2 users
-		System.out.println("*****************Paging******************");
 		Page<Users> page0 = usersDao.findAll(PageRequest.of(0,2));
 		page0.stream().forEach(users -> System.out.println(users.toString()));
 
 
 		//Fetching users using cutome query methods
-
-		System.out.println("*****************Fetching users using First Name******************");
 		usersDao.findByFirstNameIgnoreCase("Kapil").forEach(users -> System.out.println(users.toString()));
 
-		System.out.println("*****************Fetching users using First Name OR Last Name******************");
 		usersDao.findByFirstNameOrLastNameIgnoreCase("Akhil", "Sharma").forEach(users -> System.out.println(users.toString()));
 
-		System.out.println("*****************Fetching users using Email******************");
 		usersDao.findByEmailIgnoreCase("sahu.kapil1811@outlook.com").forEach(users -> System.out.println(users.toString()));
-
-		System.out.println("*****************Fetching users using mobile No******************");
-		usersDao.findByMobileNoIgnoreCase("1234567890").forEach(users -> System.out.println(users.toString()));
 	}
 
 }

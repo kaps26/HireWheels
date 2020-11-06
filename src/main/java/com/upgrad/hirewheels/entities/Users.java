@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Users {
@@ -29,6 +30,13 @@ public class Users {
 
     @Column(length = 10, precision = 2)
     private float walletMoney= 10000.00f;
+
+    @OneToMany(mappedBy = "users")
+    private Set<Booking> booking;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     public int getUserId() {
         return userId;
@@ -86,6 +94,15 @@ public class Users {
         this.walletMoney = walletMoney;
     }
 
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "Users{" +
@@ -94,8 +111,9 @@ public class Users {
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", mobileNo=" + mobileNo +
+                ", mobileNo='" + mobileNo + '\'' +
                 ", walletMoney=" + walletMoney +
+                ", role=" + role +
                 '}';
     }
 }
