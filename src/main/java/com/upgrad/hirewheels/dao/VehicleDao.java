@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VehicleDao extends JpaRepository<Vehicle, Integer> {
-//    public List<Vehicle> getVehicleByUser(User user);
 
     List<Vehicle> findByVehicleSubcategory(VehicleSubcategory vehicleSubcategory);
 
     Optional<Vehicle> findByVehicleNumber(String vehicleNumber);
+
+    Optional<Vehicle> findByAvailableStatus(Integer integer);
 }
