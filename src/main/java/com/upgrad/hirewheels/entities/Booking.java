@@ -21,7 +21,7 @@ public class Booking {
     private LocalDateTime bookingDate;
 
     @Column(length = 10, precision = 2, nullable = false)
-    private float amount;
+    private double amount;
 
     @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
@@ -34,6 +34,19 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Users users;
+
+    public Booking() {
+    }
+
+    public Booking(LocalDateTime pickupDate, LocalDateTime dropoffDate, LocalDateTime bookingDate, double amount, Location location, Vehicle vehicle, Users users) {
+        this.pickUpDate= pickupDate;
+        this.dropOffDate = dropoffDate;
+        this.bookingDate = bookingDate;
+        this.amount = amount;
+        this.location = location;
+        this.vehicle = vehicle;
+        this.users = users;
+    }
 
     public int getBookingId() {
         return bookingId;
@@ -67,11 +80,11 @@ public class Booking {
         this.bookingDate = bookingDate;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
     public Location getLocation() {

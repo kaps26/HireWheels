@@ -16,6 +16,15 @@ public class VehicleCategory {
     @OneToMany(mappedBy = "vehicleCategory")
     private Set<VehicleSubcategory> vehicleSubcategory;
 
+    public VehicleCategory(int vehicleCategoryId, String vehicleCategoryName) {
+        this.vehicleCategoryId = vehicleCategoryId;
+        this.vehicleCategoryName = vehicleCategoryName;
+    }
+
+    public VehicleCategory() {
+
+    }
+
     public int getVehicleCategoryId() {
         return vehicleCategoryId;
     }

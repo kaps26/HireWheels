@@ -14,14 +14,24 @@ public class VehicleSubcategory {
     private String vehicleSubcategoryName;
 
     @Column(length = 10, precision = 2, nullable = false)
-    private float pricePerDay;
+    private double pricePerDay;
 
-    @OneToMany(mappedBy = "vehicle_id")
+    @OneToMany(mappedBy = "vehicleSubcategory")
     private Set<Vehicle> vehicle;
 
     @ManyToOne
     @JoinColumn(name= "vehicleCategory_id", nullable = false )
     private VehicleCategory vehicleCategory;
+
+    public VehicleSubcategory(int vehicleSubcategoryId, String vehicleSubcategoryName, double pricePerDay, VehicleCategory vehicleCategory) {
+        this.vehicleSubcategoryId = vehicleSubcategoryId;
+        this.vehicleSubcategoryName = vehicleSubcategoryName;
+        this.pricePerDay = pricePerDay;
+        this.vehicleCategory = vehicleCategory;
+    }
+
+    public VehicleSubcategory() {
+    }
 
     public int getVehicleSubcategoryId() {
         return vehicleSubcategoryId;
@@ -39,11 +49,11 @@ public class VehicleSubcategory {
         this.vehicleSubcategoryName = vehicleSubcategoryName;
     }
 
-    public float getPricePerDay() {
+    public double getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(float pricePerDay) {
+    public void setPricePerDay(double pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 

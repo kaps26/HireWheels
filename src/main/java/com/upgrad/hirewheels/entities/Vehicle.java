@@ -14,7 +14,7 @@ public class Vehicle {
     private String vehicleModel;
 
     @Column(length = 10, nullable = false)
-    private char vehicleNumber;
+    private String vehicleNumber;
 
     @Column(length = 50, nullable = false)
     private String color;
@@ -41,6 +41,20 @@ public class Vehicle {
     @JoinColumn(name = "vehicleSubcategory_id", nullable = false)
     private VehicleSubcategory vehicleSubcategory;
 
+    public Vehicle() {
+    }
+
+    public Vehicle(String vehicleModel, String vehicleNumber, VehicleSubcategory vehicleSubcategory, String color, Location location, FuelType fuelType, int availabilityStatus, String vehicleImageUrl) {
+        this.vehicleModel = vehicleModel;
+        this.vehicleNumber = vehicleNumber;
+        this.vehicleSubcategory = vehicleSubcategory;
+        this.color = color;
+        this.location = location;
+        this.fuelType = fuelType;
+        this.availableStatus = availabilityStatus;
+        this.vehicleImageUrl = vehicleImageUrl;
+    }
+
     public int getVehicleId() {
         return vehicleId;
     }
@@ -57,11 +71,11 @@ public class Vehicle {
         this.vehicleModel = vehicleModel;
     }
 
-    public char getVehicleNumber() {
+    public String getVehicleNumber() {
         return vehicleNumber;
     }
 
-    public void setVehicleNumber(char vehicleNumber) {
+    public void setVehicleNumber(String vehicleNumber) {
         this.vehicleNumber = vehicleNumber;
     }
 

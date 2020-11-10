@@ -17,7 +17,7 @@ public class Location {
     private String address;
 
     @Column(length = 6, nullable = false)
-    private char pincode;
+    private String pincode;
 
     @OneToMany(mappedBy = "location")
     private Set<Booking> booking;
@@ -29,6 +29,16 @@ public class Location {
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
+    public Location(int locationId, String locationName, String address, City city, String pincode) {
+        this.locationId = locationId;
+        this.locationName = locationName;
+        this.address = address;
+        this.city = city;
+        this.pincode = pincode;
+    }
+
+    public Location() {
+    }
 
     public int getLocationId() {
         return locationId;
@@ -62,11 +72,11 @@ public class Location {
         this.address = address;
     }
 
-    public char getPincode() {
+    public String getPincode() {
         return pincode;
     }
 
-    public void setPincode(char pincode) {
+    public void setPincode(String pincode) {
         this.pincode = pincode;
     }
 

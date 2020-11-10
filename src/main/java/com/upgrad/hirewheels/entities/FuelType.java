@@ -16,6 +16,14 @@ public class FuelType {
     @OneToMany(mappedBy = "fuelType")
     private Set<Vehicle> vehicle;
 
+    public FuelType(int fuelTypeId, String fuelType) {
+        this.fuelTypeId = fuelTypeId;
+        this.fuelTypeName = fuelTypeName;
+    }
+
+    public FuelType() {
+    }
+
     public int getFuelTypeId() {
         return fuelTypeId;
     }

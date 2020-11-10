@@ -29,7 +29,7 @@ public class Users {
     private String mobileNo;
 
     @Column(length = 10, precision = 2)
-    private float walletMoney= 10000.00f;
+    private double walletMoney= 10000.00f;
 
     @OneToMany(mappedBy = "users")
     private Set<Booking> booking;
@@ -37,6 +37,19 @@ public class Users {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    public Users(String firstName, String lastName, String password, String email, String mobileNo, double walletMoney, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.mobileNo = mobileNo;
+        this.walletMoney = walletMoney;
+        this.role = role;
+    }
+
+    public Users() {
+    }
 
     public int getUserId() {
         return userId;
@@ -86,11 +99,11 @@ public class Users {
         this.mobileNo = mobileNo;
     }
 
-    public float getWalletMoney() {
+    public double getWalletMoney() {
         return walletMoney;
     }
 
-    public void setWalletMoney(float walletMoney) {
+    public void setWalletMoney(double walletMoney) {
         this.walletMoney = walletMoney;
     }
 
