@@ -21,6 +21,8 @@ public class UserServiceTest {
 
     @Mock
     private UsersDao usersDao;
+
+    @Mock
     private RoleDao roleDao;
 
     @InjectMocks

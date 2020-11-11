@@ -53,6 +53,16 @@ public class VehicleServiceTest {
     }
 
     @Test
+    public void testVehiclesByUserName() {
+        Users user = new Users("Upgrad", "Admin", "admin@123", "upgrad@gmail.com",
+                "9999999998", 10000, new Role());
+        List<Vehicle> vehicles = vehicleService.getVehicleByUserId(user);
+        Assertions.assertNotNull(vehicles);
+        Assertions.assertTrue(vehicles.size() != 0);
+        Assertions.assertNotNull(vehicles.get(1));
+    }
+
+    @Test
     public void testGetAllVehicles() {
 
         Vehicle vehicle = new Vehicle();

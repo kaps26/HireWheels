@@ -19,11 +19,13 @@ public class AdminController {
 
     private static  final Logger logger= LoggerFactory.getLogger(AdminController.class);
 
+
     @Autowired
     ModelMapper modelmapper;
 
     @Autowired
     AdminService adminService;
+
 
     @PostMapping(value="/vehicles", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity addVehicle(@RequestBody VehicleDTO vehicleDTO){

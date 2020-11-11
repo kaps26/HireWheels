@@ -17,7 +17,7 @@ public class VehicleCategory {
     private String vehicleCategoryName;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "vehicleCategory",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "vehicleCategory",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<VehicleSubcategory> vehicleSubcategories;
 
     public VehicleCategory() {
