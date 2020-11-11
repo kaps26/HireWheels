@@ -27,9 +27,9 @@ public class HireWheelsApplication {
 		ApplicationContext context = SpringApplication.run(HireWheelsApplication.class, args);
 
 
-		/*InitService initService = context.getBean(InitService.class);
+		InitService initService = context.getBean(InitService.class);
         initService.start();
-*/
+
 
 		}
 	@Bean

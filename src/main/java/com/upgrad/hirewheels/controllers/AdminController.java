@@ -19,7 +19,6 @@ public class AdminController {
 
     private static  final Logger logger= LoggerFactory.getLogger(AdminController.class);
 
-
     @Autowired
     ModelMapper modelmapper;
 
@@ -35,10 +34,10 @@ public class AdminController {
     }
 
     @PutMapping(value = "/vehicles/{vehicleid}")
-    public ResponseEntity changeVehicleAvailability(@PathVariable(name = "vehicleid")int id,@RequestBody VehicleDTO vehicleDTO) throws VehicleNotFoundException {
+    public ResponseEntity changeVehicleAvailability(@PathVariable(name = "vehicleid")int vehicleId,@RequestBody VehicleDTO vehicleDTO) throws VehicleNotFoundException {
         Vehicle vehicle=modelmapper.map(vehicleDTO,Vehicle.class);
-        Vehicle updateVehicle=adminService.changeAvailabilty(id);
-        logger.debug("Updated availability status for id:"+id, vehicleDTO);
+        Vehicle updateVehicle=adminService.changeAvailabilty(vehicleId);
+        logger.debug("Updated availability status for vehicle id :"+vehicleId, vehicleDTO);
         return new ResponseEntity<>(updateVehicle,HttpStatus.OK);
     }
 

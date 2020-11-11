@@ -1,6 +1,7 @@
 package com.upgrad.hirewheels.controllers;
 
 import com.upgrad.hirewheels.dao.VehicleCategoryDao;
+import com.upgrad.hirewheels.exceptions.APIException;
 import com.upgrad.hirewheels.exceptions.VehicleNotFoundException;
 import org.modelmapper.ModelMapper;
 import com.upgrad.hirewheels.dto.VehicleDTO;
@@ -12,15 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping(value ="/hirewheels/v1")
 public class VehicleController {
 
     private static  final Logger logger= LoggerFactory.getLogger(AdminController.class);
@@ -34,19 +34,26 @@ public class VehicleController {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value= {"/hirewheels/v1/vehicles"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getVehicles(@RequestParam(name = "categoryName") String categoryName, @RequestParam(name="pickUpDate") LocalDateTime pickUpDate, @RequestParam(name="dropDate")LocalDateTime dropDate, @RequestParam(name="locationId") int locationId) throws VehicleNotFoundException {
+    @GetMapping(value="/vehicles/{vehicleId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getVehicles(@PathVariable("vehicleId") int vehicleId) throws APIException, VehicleNotFoundException {
+        logger.debug("Searching vehicle for id :", vehicleId);
         List<Vehicle> vehicleList=vehicleService.getAllVehicles();
         List<VehicleDTO> vehicleDTOList=new ArrayList<>();
-        for(Vehicle vehicle:vehicleList){
-            if(vehicle.getVehicleSubcategory().equals(categoryName)&& vehicle.getLocation().equals(locationId) && vehicle.getBookings().equals(pickUpDate) && vehicle.getBookings().equals(dropDate)) {
+        for(Vehicle vehicle : vehicleList){
+            if(vehicle.getVehicleId()==vehicleId) {
                 vehicleDTOList.add(modelMapper.map(vehicle, VehicleDTO.class));
             }
-            else{
+            else {
                 return null;
             }
         }
         logger.debug("Vehicle list returned", vehicleDTOList);
         return new ResponseEntity<>(vehicleDTOList,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/vehicles",produces= MediaType.APPLICATION_JSON_VALUE,headers="Accept=application/json")
+    public ResponseEntity findAllAvailablevehicles() {
+        List<Vehicle> vehicleList = vehicleService.getAllVehicles();
+        return new ResponseEntity<>(vehicleList, HttpStatus.OK);
     }
 }

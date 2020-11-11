@@ -2,6 +2,8 @@ package com.upgrad.hirewheels.controllers;
 
 import com.upgrad.hirewheels.dto.BookingDTO;
 import com.upgrad.hirewheels.entities.Booking;
+import com.upgrad.hirewheels.exceptions.APIException;
+import com.upgrad.hirewheels.exceptions.VehicleNotFoundException;
 import com.upgrad.hirewheels.services.AdminService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -28,7 +30,7 @@ public class BookingController {
     AdminService adminService;
 
     @PostMapping(value="/bookings", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity addBooking(@RequestBody BookingDTO bookingDTO){
+    public ResponseEntity addBooking(@RequestBody BookingDTO bookingDTO) throws APIException, VehicleNotFoundException {
         Booking addBooking=modelmapper.map(bookingDTO,Booking.class);
         Booking saveBooking=adminService.acceptBookingDetails(addBooking);
         logger.debug("New Booking added", bookingDTO);
