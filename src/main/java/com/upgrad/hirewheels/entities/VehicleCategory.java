@@ -7,13 +7,13 @@ import java.util.Set;
 public class VehicleCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int vehicleCategoryId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String vehicleCategoryName;
 
-    @OneToMany(mappedBy = "vehicleCategory")
+    @OneToMany(mappedBy = "vehicleCategory",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<VehicleSubcategory> vehicleSubcategory;
 
     public VehicleCategory(int vehicleCategoryId, String vehicleCategoryName) {

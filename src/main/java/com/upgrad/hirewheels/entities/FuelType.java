@@ -7,16 +7,16 @@ import java.util.Set;
 public class FuelType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int fuelTypeId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String fuelTypeName;
 
-    @OneToMany(mappedBy = "fuelType")
+    @OneToMany(mappedBy = "fuelType",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Vehicle> vehicle;
 
-    public FuelType(int fuelTypeId, String fuelType) {
+    public FuelType(int fuelTypeId, String fuelTypeName) {
         this.fuelTypeId = fuelTypeId;
         this.fuelTypeName = fuelTypeName;
     }

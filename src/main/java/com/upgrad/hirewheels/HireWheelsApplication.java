@@ -1,19 +1,23 @@
 package com.upgrad.hirewheels;
 
-import com.upgrad.hirewheels.dao.RoleDao;
-import com.upgrad.hirewheels.dao.UsersDao;
+import com.upgrad.hirewheels.dao.*;
 import com.upgrad.hirewheels.entities.Role;
 import com.upgrad.hirewheels.entities.Users;
+import com.upgrad.hirewheels.entities.Vehicle;
+import com.upgrad.hirewheels.entities.VehicleSubcategory;
 import com.upgrad.hirewheels.services.InitService;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @SpringBootApplication
 public class HireWheelsApplication {
@@ -23,10 +27,21 @@ public class HireWheelsApplication {
 		ApplicationContext context = SpringApplication.run(HireWheelsApplication.class, args);
 
 		UsersDao usersDao = context.getBean(UsersDao.class);
+		VehicleSubcategoryDao vehicleSubcategoryDao = context.getBean(VehicleSubcategoryDao.class);
+		LocationDao locationDao = context.getBean(LocationDao.class);
+		FuelTypeDao fuelTypeDao = context.getBean(FuelTypeDao.class);
+		VehicleDao vehicleDao = context.getBean(VehicleDao.class);
 
 		InitService initService = context.getBean(InitService.class);
         initService.start();
 
-	}
 
+		}
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 }
+
+
+

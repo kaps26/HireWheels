@@ -7,7 +7,7 @@ import java.util.Set;
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int locationId;
 
     @Column(length = 50, nullable = false)
@@ -22,7 +22,7 @@ public class Location {
     @OneToMany(mappedBy = "location")
     private Set<Booking> booking;
 
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Vehicle> vehicle;
 
     @ManyToOne

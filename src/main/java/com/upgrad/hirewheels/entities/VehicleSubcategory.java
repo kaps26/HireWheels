@@ -7,7 +7,7 @@ import java.util.Set;
 public class VehicleSubcategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int vehicleSubcategoryId;
 
     @Column(length = 50, nullable = false, unique = true)
@@ -16,7 +16,7 @@ public class VehicleSubcategory {
     @Column(length = 10, precision = 2, nullable = false)
     private double pricePerDay;
 
-    @OneToMany(mappedBy = "vehicleSubcategory")
+    @OneToMany(mappedBy = "vehicleSubcategory",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Vehicle> vehicle;
 
     @ManyToOne

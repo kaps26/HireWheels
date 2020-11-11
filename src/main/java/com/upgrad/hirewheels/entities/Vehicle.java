@@ -7,7 +7,7 @@ import java.util.Set;
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int vehicleId;
 
     @Column(length = 50, nullable = false)
@@ -25,13 +25,20 @@ public class Vehicle {
     @Column(length = 500, nullable = false)
     private String vehicleImageUrl;
 
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(mappedBy = "vehicle",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Booking> booking;
 
     @ManyToOne
     @JoinColumn(name = "fuelType_id", nullable = false)
     private FuelType fuelType;
 
+    public Set<Booking> getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Set<Booking> booking) {
+        this.booking = booking;
+    }
 
     @ManyToOne
     @JoinColumn(name= "location_id", nullable = false)
@@ -141,5 +148,6 @@ public class Vehicle {
                 ", vehicleSubcategory=" + vehicleSubcategory +
                 '}';
     }
+
 }
 

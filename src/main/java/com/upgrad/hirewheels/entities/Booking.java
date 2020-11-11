@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int bookingId;
 
     @Column(nullable = false)

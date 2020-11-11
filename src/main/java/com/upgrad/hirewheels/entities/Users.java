@@ -10,7 +10,7 @@ import java.util.Set;
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int userId;
 
     @Column(length = 50, nullable = false)
@@ -31,7 +31,7 @@ public class Users {
     @Column(length = 10, precision = 2)
     private double walletMoney= 10000.00f;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Booking> booking;
 
     @ManyToOne

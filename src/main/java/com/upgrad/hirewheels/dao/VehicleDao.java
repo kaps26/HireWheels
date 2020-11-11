@@ -15,4 +15,5 @@ public interface VehicleDao extends JpaRepository<Vehicle, Integer> {
     Optional<Vehicle> findByVehicleNumber(String vehicleNumber);
 
     Optional<Vehicle> findByAvailableStatus(Integer integer);
+
 }

@@ -7,13 +7,13 @@ import java.util.Set;
 public class City {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int cityId;
 
     @Column(length = 50, nullable = false)
     private String cityName;
 
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Location> location;
 
     public City(int cityId, String cityName) {
