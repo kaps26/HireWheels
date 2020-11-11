@@ -1,6 +1,5 @@
 package com.upgrad.hirewheels.aspect;
 
-import com.upgrad.hirewheels.exceptions.InsufficientBalanceException;
 import com.upgrad.hirewheels.exceptions.MobileNoAlreadyExists;
 import com.upgrad.hirewheels.responses.CustomResponse;
 import org.springframework.http.HttpStatus;
