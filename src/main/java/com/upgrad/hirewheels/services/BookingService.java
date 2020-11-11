@@ -1,15 +1,10 @@
 package com.upgrad.hirewheels.services;
 
 import com.upgrad.hirewheels.entities.Booking;
-import com.upgrad.hirewheels.entities.Vehicle;
-import com.upgrad.hirewheels.exceptions.InsufficientBalanceException;
-import com.upgrad.hirewheels.exceptions.UnauthorizedUserException;
-import com.upgrad.hirewheels.exceptions.UserNotRegisteredException;
+import com.upgrad.hirewheels.exceptions.BookingDetailsNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+@Service
 public interface BookingService {
-
-
-    Booking addBooking(Booking booking) throws UserNotRegisteredException, UnauthorizedUserException, InsufficientBalanceException;
+    public Booking addBooking(Booking booking) throws BookingDetailsNotFoundException;
 }

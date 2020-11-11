@@ -1,36 +1,52 @@
 package com.upgrad.hirewheels.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class VehicleSubcategory {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="vehicle_subcategory_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int vehicleSubcategoryId;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(name="vehicle_subcategory_name",nullable = false,unique = true)
     private String vehicleSubcategoryName;
 
-    @Column(length = 10, precision = 2, nullable = false)
-    private double pricePerDay;
+    @Column(name="price_per_day",nullable = false)
+    private float pricePerDay;
 
-    @OneToMany(mappedBy = "vehicleSubcategory",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Vehicle> vehicle;
-
+    @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name= "vehicleCategory_id", nullable = false )
+    @JoinColumn(name="vehicle_category_id",nullable = false)
     private VehicleCategory vehicleCategory;
 
-    public VehicleSubcategory(int vehicleSubcategoryId, String vehicleSubcategoryName, double pricePerDay, VehicleCategory vehicleCategory) {
-        this.vehicleSubcategoryId = vehicleSubcategoryId;
-        this.vehicleSubcategoryName = vehicleSubcategoryName;
-        this.pricePerDay = pricePerDay;
-        this.vehicleCategory = vehicleCategory;
-    }
+    @JsonBackReference
+    @OneToMany(mappedBy = "vehicleSubcategory",fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    private Set<Vehicle> vehicles;
 
     public VehicleSubcategory() {
+
+    }
+
+
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(Set<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public VehicleCategory getVehicleCategory() {
+        return vehicleCategory;
+    }
+
+    public void setVehicleCategory(VehicleCategory vehicleCategory) {
+        this.vehicleCategory = vehicleCategory;
     }
 
     public int getVehicleSubcategoryId() {
@@ -49,20 +65,24 @@ public class VehicleSubcategory {
         this.vehicleSubcategoryName = vehicleSubcategoryName;
     }
 
-    public double getPricePerDay() {
+    public float getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(double pricePerDay) {
+    public void setPricePerDay(float pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 
-
-    public VehicleCategory getVehicleCategory() {
-        return vehicleCategory;
+    public VehicleSubcategory(String vehicleSubcategoryName, float pricePerDay, VehicleCategory vehicleCategory) {
+        this.vehicleSubcategoryName = vehicleSubcategoryName;
+        this.pricePerDay = pricePerDay;
+        this.vehicleCategory = vehicleCategory;
     }
 
-    public void setVehicleCategory(VehicleCategory vehicleCategory) {
+    public VehicleSubcategory(int vehicleSubcategoryId, String vehicleSubcategoryName, float pricePerDay, VehicleCategory vehicleCategory) {
+        this.vehicleSubcategoryId = vehicleSubcategoryId;
+        this.vehicleSubcategoryName = vehicleSubcategoryName;
+        this.pricePerDay = pricePerDay;
         this.vehicleCategory = vehicleCategory;
     }
 

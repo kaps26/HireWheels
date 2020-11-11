@@ -11,9 +11,6 @@ import java.util.Optional;
 public interface VehicleDao extends JpaRepository<Vehicle, Integer> {
 
     List<Vehicle> findByVehicleSubcategory(VehicleSubcategory vehicleSubcategory);
-
     Optional<Vehicle> findByVehicleNumber(String vehicleNumber);
-
-    Optional<Vehicle> findByAvailableStatus(Integer integer);
-
+    Optional<Vehicle> findByAvailabilityStatus(Integer id);
 }

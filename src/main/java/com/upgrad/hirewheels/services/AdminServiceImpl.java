@@ -1,54 +1,62 @@
 package com.upgrad.hirewheels.services;
 
+import com.upgrad.hirewheels.dao.BookingDao;
 import com.upgrad.hirewheels.dao.VehicleDao;
-import com.upgrad.hirewheels.entities.Users;
+import com.upgrad.hirewheels.entities.Booking;
 import com.upgrad.hirewheels.entities.Vehicle;
-import com.upgrad.hirewheels.exceptions.UnauthorizedUserException;
-import com.upgrad.hirewheels.exceptions.UserNotRegisteredException;
-import com.upgrad.hirewheels.exceptions.VehicleAlreadyExistsException;
 import com.upgrad.hirewheels.exceptions.VehicleNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-    @Autowired
-    private VehicleDao vehicleDao;
 
     @Autowired
-    private UserService userService;
+    AdminService adminService;
 
-    public Vehicle registerVehicle(
-            Vehicle vehicle,
-            Users users)
-            throws UserNotRegisteredException, UnauthorizedUserException, VehicleAlreadyExistsException {
+    @Qualifier("vehicleDao")
+    @Autowired
+    VehicleDao vehicleDao;
 
-        if (userService.getUsers(users).getRole().getRoleName().equals("ADMIN")) {
-            if (vehicleDao.findByVehicleNumber(vehicle.getVehicleNumber()).isPresent()) {
-                throw new VehicleAlreadyExistsException("Vehicle Already exists");
-            }
-            vehicle.setAvailableStatus(1);
-            return vehicleDao.save(vehicle);
-        } else {
-            throw new UnauthorizedUserException("You are unauthorized to register vehicle");
-        }
+    @Qualifier("bookingDao")
+    @Autowired
+    BookingDao bookingDao;
+
+    @Override
+    public Vehicle registerVehicle(Vehicle vehicle) {
+        vehicle.setAvailabilityStatus(1);
+        return vehicleDao.save(vehicle);
+    }
+    @Override
+    public Vehicle getVehicleDetails(int id) throws VehicleNotFoundException {
+        return vehicleDao.findById(id)
+                .orElseThrow(
+                        () -> new VehicleNotFoundException("Vehicle not found for id: " + id)
+                );
     }
 
     @Override
-    public Vehicle changeAvailability(
-            Vehicle vehicle,
-            int status,
-            Users users)
-            throws UserNotRegisteredException, UnauthorizedUserException, VehicleNotFoundException {
+    public Vehicle changeAvailabilty(int id) throws VehicleNotFoundException {
 
-
-        if (userService.getUsers(users).getRole().getRoleName().equals("ADMIN")) {
-            Vehicle updatedVehicle = vehicleDao.findById(vehicle.getVehicleId()).orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
-            updatedVehicle.setAvailableStatus(status);
-            return vehicleDao.save(updatedVehicle);
-        } else {
-            throw new UnauthorizedUserException("You are unauthorized to change the status");
+        Vehicle savedVehicle=getVehicleDetails(id);
+        if (savedVehicle.getAvailabilityStatus() == 0) {
+            savedVehicle.setAvailabilityStatus(1);
         }
-
+        else {
+            savedVehicle.setAvailabilityStatus(0);
+        }
+        return vehicleDao.save(savedVehicle);
     }
+
+    @Override
+    public Vehicle acceptVehicleDetails(Vehicle vehicle) {
+        return vehicleDao.save(vehicle);
+    }
+
+    @Override
+    public Booking acceptBookingDetails(Booking booking) {
+        return bookingDao.save(booking);
+    }
+
 }

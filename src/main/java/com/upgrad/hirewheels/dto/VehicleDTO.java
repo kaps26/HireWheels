@@ -1,11 +1,9 @@
 package com.upgrad.hirewheels.dto;
 
-import com.upgrad.hirewheels.entities.Booking;
 import com.upgrad.hirewheels.entities.FuelType;
 import com.upgrad.hirewheels.entities.Location;
 import com.upgrad.hirewheels.entities.VehicleSubcategory;
 
-import java.util.Set;
 
 public class VehicleDTO {
 

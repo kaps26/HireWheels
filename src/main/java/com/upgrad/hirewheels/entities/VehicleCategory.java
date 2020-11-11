@@ -1,25 +1,24 @@
 package com.upgrad.hirewheels.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class VehicleCategory {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="vehicle_category_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int vehicleCategoryId;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(name="vehicle_category_name",nullable = false,unique = true)
     private String vehicleCategoryName;
 
-    @OneToMany(mappedBy = "vehicleCategory",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<VehicleSubcategory> vehicleSubcategory;
-
-    public VehicleCategory(int vehicleCategoryId, String vehicleCategoryName) {
-        this.vehicleCategoryId = vehicleCategoryId;
-        this.vehicleCategoryName = vehicleCategoryName;
-    }
+    @JsonBackReference
+    @OneToMany(mappedBy = "vehicleCategory",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<VehicleSubcategory> vehicleSubcategories;
 
     public VehicleCategory() {
 
@@ -41,13 +40,24 @@ public class VehicleCategory {
         this.vehicleCategoryName = vehicleCategoryName;
     }
 
+    public Set<VehicleSubcategory> getVehicleSubcategories() {
+        return vehicleSubcategories;
+    }
+
+    public void setVehicleSubcategories(Set<VehicleSubcategory> vehicleSubcategories) {
+        this.vehicleSubcategories = vehicleSubcategories;
+    }
+
+    public VehicleCategory(int vehicleCategoryId, String vehicleCategoryName) {
+        this.vehicleCategoryId = vehicleCategoryId;
+        this.vehicleCategoryName = vehicleCategoryName;
+    }
 
     @Override
     public String toString() {
         return "VehicleCategory{" +
                 "vehicleCategoryId=" + vehicleCategoryId +
                 ", vehicleCategoryName='" + vehicleCategoryName + '\'' +
-                ", vehicleSubcategory=" + vehicleSubcategory +
                 '}';
     }
 }

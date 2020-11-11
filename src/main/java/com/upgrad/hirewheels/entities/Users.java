@@ -1,54 +1,62 @@
 package com.upgrad.hirewheels.entities;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class Users {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="user_id")
+    @GeneratedValue
     private int userId;
 
-    @Column(length = 50, nullable = false)
+    @Column(name="first_name",nullable = false)
     private String firstName;
 
-    @Column(length = 50)
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(nullable = false,unique = true)
     private String email;
 
-    @Column(length = 10, nullable = false, unique = true)
+    @Column(name="mobile_no",nullable = false,unique = true,length = 10)
     private String mobileNo;
 
-    @Column(length = 10, precision = 2)
-    private double walletMoney= 10000.00f;
+    @Column(name="wallet_money")
+    private float walletMoney=10000.00f;
 
-    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Booking> booking;
+    @JsonBackReference
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<Booking> bookings;
 
+    @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id",nullable = false)
     private Role role;
 
-    public Users(String firstName, String lastName, String password, String email, String mobileNo, double walletMoney, Role role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.email = email;
-        this.mobileNo = mobileNo;
-        this.walletMoney = walletMoney;
-        this.role = role;
+    public Users() {
+
     }
 
-    public Users() {
+    @Override
+    public String toString() {
+        return "Users{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", walletMoney=" + walletMoney +
+                ", role=" + role +
+                '}';
     }
 
     public int getUserId() {
@@ -99,14 +107,21 @@ public class Users {
         this.mobileNo = mobileNo;
     }
 
-    public double getWalletMoney() {
+    public float getWalletMoney() {
         return walletMoney;
     }
 
-    public void setWalletMoney(double walletMoney) {
+    public void setWalletMoney(float walletMoney) {
         this.walletMoney = walletMoney;
     }
 
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
+    }
 
     public Role getRole() {
         return role;
@@ -116,17 +131,14 @@ public class Users {
         this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "Users{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", mobileNo='" + mobileNo + '\'' +
-                ", walletMoney=" + walletMoney +
-                ", role=" + role +
-                '}';
+    public Users( String firstName, String lastName, String password, String email, String mobileNo, float walletMoney, Role role) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.mobileNo = mobileNo;
+        this.walletMoney = walletMoney;
+        this.role = role;
     }
 }

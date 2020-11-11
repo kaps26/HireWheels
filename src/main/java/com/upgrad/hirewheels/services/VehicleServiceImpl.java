@@ -34,7 +34,7 @@ public class VehicleServiceImpl implements VehicleService {
     public List<Vehicle> getAvailableVehicles(VehicleSubcategory vehicleSubcategory, Booking booking) {
         List<Vehicle> vehicles = vehicleDao.findByVehicleSubcategory(vehicleSubcategory);
         return vehicles.stream().filter(
-                vehicle -> vehicle.getAvailableStatus() == 1 && booking.getLocation().equals(vehicle.getLocation())).collect(Collectors.toList());
+                vehicle -> vehicle.getAvailabilityStatus() == 1 && booking.getLocation().equals(vehicle.getLocation())).collect(Collectors.toList());
     }
 
 }

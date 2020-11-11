@@ -1,43 +1,43 @@
 package com.upgrad.hirewheels.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class Location {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "location_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int locationId;
 
-    @Column(length = 50, nullable = false)
+    @Column(name="location_name",nullable = false)
     private String locationName;
 
-    @Column(length = 100, nullable = false)
+    @Column(nullable = false)
     private String address;
 
-    @Column(length = 6, nullable = false)
-    private String pincode;
 
-    @OneToMany(mappedBy = "location")
-    private Set<Booking> booking;
+    @Column(length = 6,nullable = false)
+    private int pincode;
 
-    @OneToMany(mappedBy = "location",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Vehicle> vehicle;
+    @JsonBackReference
+    @OneToMany(mappedBy = "location",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<Booking> bookings;
 
+    @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "city_id", nullable = false)
+    @JoinColumn(name = "city_id",nullable = false)
     private City city;
 
-    public Location(int locationId, String locationName, String address, City city, String pincode) {
-        this.locationId = locationId;
-        this.locationName = locationName;
-        this.address = address;
-        this.city = city;
-        this.pincode = pincode;
-    }
+    @JsonBackReference
+    @OneToMany(mappedBy = "location",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<Vehicle> vehicles;
 
     public Location() {
+
     }
 
     public int getLocationId() {
@@ -60,6 +60,26 @@ public class Location {
         return address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(int pincode) {
+        this.pincode = pincode;
+    }
+
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
     public City getCity() {
         return city;
     }
@@ -68,16 +88,20 @@ public class Location {
         this.city = city;
     }
 
-    public void setAddress(String address) {
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(Set<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public Location(int locationId, String locationName, String address, int pincode, City city) {
+        this.locationId = locationId;
+        this.locationName = locationName;
         this.address = address;
-    }
-
-    public String getPincode() {
-        return pincode;
-    }
-
-    public void setPincode(String pincode) {
         this.pincode = pincode;
+        this.city = city;
     }
 
     @Override
@@ -86,7 +110,7 @@ public class Location {
                 "locationId=" + locationId +
                 ", locationName='" + locationName + '\'' +
                 ", address='" + address + '\'' +
-                ", pincode=" + pincode +
+                ", pincode='" + pincode + '\'' +
                 ", city=" + city +
                 '}';
     }

@@ -1,65 +1,67 @@
 package com.upgrad.hirewheels.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class Vehicle {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "vehicle_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int vehicleId;
 
-    @Column(length = 50, nullable = false)
+    @Column(name="vehicle_model",nullable = false)
     private String vehicleModel;
 
-    @Column(length = 10, nullable = false)
+    @Column(name="vehicle_number",length = 10,nullable = false)
     private String vehicleNumber;
 
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     private String color;
 
-    @Column(length = 1, nullable = false)
-    private int availableStatus;
 
-    @Column(length = 500, nullable = false)
+    @Column(name="availability_status",length = 1,nullable = false)
+    private int availabilityStatus;
+
+    @Column(name="vehicle_image_url",nullable = false)
     private String vehicleImageUrl;
 
-    @OneToMany(mappedBy = "vehicle",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Booking> booking;
+    @JsonBackReference
+    @OneToMany(mappedBy = "vehicle",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<Booking> bookings;
 
+    @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "fuelType_id", nullable = false)
+    @JoinColumn(name = "fuel_type_id",nullable = false)
     private FuelType fuelType;
 
-    public Set<Booking> getBooking() {
-        return booking;
-    }
-
-    public void setBooking(Set<Booking> booking) {
-        this.booking = booking;
-    }
-
+    @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name= "location_id", nullable = false)
+    @JoinColumn(name = "location_id",nullable = false)
     private Location location;
 
+    @JsonManagedReference
     @ManyToOne
-    @JoinColumn(name = "vehicleSubcategory_id", nullable = false)
+    @JoinColumn(name = "vehicle_subcategory_id",nullable = false)
     private VehicleSubcategory vehicleSubcategory;
 
-    public Vehicle() {
+    public Vehicle(String VehicleModel, String VehicleNumber, VehicleSubcategory vehicleSubcategory, String color, Location location, FuelType fuelType, int availabilityStatus, String imageUrl) {
+
+        this.vehicleModel=VehicleModel;
+        this.vehicleNumber=VehicleNumber;
+        this.vehicleSubcategory=vehicleSubcategory;
+        this.color=color;
+        this.location=location;
+        this.fuelType=fuelType;
+        this.availabilityStatus=availabilityStatus;
+        this.vehicleImageUrl=imageUrl;
     }
 
-    public Vehicle(String vehicleModel, String vehicleNumber, VehicleSubcategory vehicleSubcategory, String color, Location location, FuelType fuelType, int availabilityStatus, String vehicleImageUrl) {
-        this.vehicleModel = vehicleModel;
-        this.vehicleNumber = vehicleNumber;
-        this.vehicleSubcategory = vehicleSubcategory;
-        this.color = color;
-        this.location = location;
-        this.fuelType = fuelType;
-        this.availableStatus = availabilityStatus;
-        this.vehicleImageUrl = vehicleImageUrl;
+    public Vehicle() {
+
     }
 
     public int getVehicleId() {
@@ -86,6 +88,7 @@ public class Vehicle {
         this.vehicleNumber = vehicleNumber;
     }
 
+
     public String getColor() {
         return color;
     }
@@ -94,12 +97,12 @@ public class Vehicle {
         this.color = color;
     }
 
-    public int getAvailableStatus() {
-        return availableStatus;
+    public int getAvailabilityStatus() {
+        return availabilityStatus;
     }
 
-    public void setAvailableStatus(int availableStatus) {
-        this.availableStatus = availableStatus;
+    public void setAvailabilityStatus(int availabilityStatus) {
+        this.availabilityStatus = availabilityStatus;
     }
 
     public String getVehicleImageUrl() {
@@ -108,6 +111,14 @@ public class Vehicle {
 
     public void setVehicleImageUrl(String vehicleImageUrl) {
         this.vehicleImageUrl = vehicleImageUrl;
+    }
+
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     public FuelType getFuelType() {
@@ -139,9 +150,9 @@ public class Vehicle {
         return "Vehicle{" +
                 "vehicleId=" + vehicleId +
                 ", vehicleModel='" + vehicleModel + '\'' +
-                ", vehicleNumber=" + vehicleNumber +
+                ", vehicleNumber='" + vehicleNumber + '\'' +
                 ", color='" + color + '\'' +
-                ", availableStatus=" + availableStatus +
+                ", availabilityStatus=" + availabilityStatus +
                 ", vehicleImageUrl='" + vehicleImageUrl + '\'' +
                 ", fuelType=" + fuelType +
                 ", location=" + location +
@@ -150,4 +161,3 @@ public class Vehicle {
     }
 
 }
-

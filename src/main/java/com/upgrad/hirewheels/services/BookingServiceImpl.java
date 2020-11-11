@@ -1,40 +1,28 @@
 package com.upgrad.hirewheels.services;
 
 import com.upgrad.hirewheels.dao.BookingDao;
-import com.upgrad.hirewheels.dao.UsersDao;
 import com.upgrad.hirewheels.entities.Booking;
-import com.upgrad.hirewheels.entities.Users;
-import com.upgrad.hirewheels.exceptions.InsufficientBalanceException;
-import com.upgrad.hirewheels.exceptions.UnauthorizedUserException;
-import com.upgrad.hirewheels.exceptions.UserNotRegisteredException;
+import com.upgrad.hirewheels.exceptions.BookingDetailsNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 @Service
 public class BookingServiceImpl implements BookingService {
 
     @Autowired
-    private UserService userService;
+    BookingService bookingService;
 
+    @Qualifier("bookingDao")
     @Autowired
-    private BookingDao bookingDao;
-
-    @Autowired
-    private VehicleService vehicleService;
-
-    @Autowired
-    private UsersDao usersDao;
+    BookingDao bookingDao;
 
     @Override
-    public Booking addBooking(Booking booking) throws UserNotRegisteredException, UnauthorizedUserException, InsufficientBalanceException {
-        Users users  = userService.getUsers(booking.getUsers());
-        if (users.getWalletMoney() < booking.getAmount()) {
-            throw new InsufficientBalanceException("Insufficient balance");
+    public Booking addBooking(Booking booking) throws BookingDetailsNotFoundException {
+        if (booking.getUser().getWalletMoney() < booking.getVehicle().getVehicleSubcategory().getPricePerDay()) {
+            throw new BookingDetailsNotFoundException("Insufficient Balance.Please check with Admin");
         } else {
-            Booking bookingMade = bookingDao.save(booking);
-            users.setWalletMoney((float)(users.getWalletMoney() - booking.getAmount()));
-            usersDao.save(users);
-            return bookingMade;
+            booking.getUser().setWalletMoney(booking.getUser().getWalletMoney() - booking.getVehicle().getVehicleSubcategory().getPricePerDay());
+            return bookingDao.save(booking);
         }
     }
 }

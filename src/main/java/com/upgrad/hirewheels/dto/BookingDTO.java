@@ -1,57 +1,19 @@
-package com.upgrad.hirewheels.entities;
+package com.upgrad.hirewheels.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.upgrad.hirewheels.entities.Location;
+import com.upgrad.hirewheels.entities.Users;
+import com.upgrad.hirewheels.entities.Vehicle;
 
-import javax.persistence.*;
+public class BookingDTO {
 
-
-@Entity
-public class Booking {
-    @Id
-    @Column(name = "booking_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int bookingId;
-
-    @Column(name="pickup_date",nullable = false)
     private int pickupDate;
-
-    @Column(name="dropoff_date",nullable = false)
     private int dropoffDate;
-
-    @Column(name="booking_date",nullable = false)
     private int bookingDate;
-
-    @Column(nullable = false)
     private float amount;
-
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "location_id",nullable = false)
     private Location location;
-
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id",nullable = false)
     private Vehicle vehicle;
-
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
     private Users user;
-
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "bookingId=" + bookingId +
-                ", pickupDate=" + pickupDate +
-                ", dropoffDate=" + dropoffDate +
-                ", bookingDate=" + bookingDate +
-                ", amount=" + amount +
-                ", location=" + location +
-                ", vehicle=" + vehicle +
-                ", user=" + user +
-                '}';
-    }
 
     public int getBookingId() {
         return bookingId;
@@ -113,7 +75,8 @@ public class Booking {
         return user;
     }
 
-    public void setUser(Users users) {
-        this.user = users;
+    public void setUser(Users user) {
+        this.user = user;
     }
+
 }

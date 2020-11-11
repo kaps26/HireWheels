@@ -1,30 +1,29 @@
 package com.upgrad.hirewheels.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
-import javax.websocket.OnMessage;
 import java.util.Set;
 
 @Entity
 public class Role {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="role_id")
+    @GeneratedValue
     private int roleId;
 
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(name="role_name",nullable = false,unique = true)
     private String roleName;
 
-    @OneToMany(mappedBy = "role",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Users> users;
-
-    public Role(int roleId, String roleName) {
-        this.roleId = roleId;
-        this.roleName = roleName;
-    }
+    @JsonBackReference
+    @OneToMany(mappedBy = "role",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<Users> usersSet;
 
     public Role() {
 
     }
+
 
     public int getRoleId() {
         return roleId;
@@ -42,6 +41,18 @@ public class Role {
         this.roleName = roleName;
     }
 
+    public Set<Users> getUsersSet() {
+        return usersSet;
+    }
+
+    public void setUsersSet(Set<Users> usersSet) {
+        this.usersSet = usersSet;
+    }
+
+    public Role(int roleId, String roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+    }
 
     @Override
     public String toString() {
@@ -51,4 +62,3 @@ public class Role {
                 '}';
     }
 }
-

@@ -1,10 +1,10 @@
 package com.upgrad.hirewheels.controllers;
 
 import com.upgrad.hirewheels.dao.VehicleCategoryDao;
+import com.upgrad.hirewheels.exceptions.VehicleNotFoundException;
 import org.modelmapper.ModelMapper;
 import com.upgrad.hirewheels.dto.VehicleDTO;
 import com.upgrad.hirewheels.entities.Vehicle;
-import com.upgrad.hirewheels.exceptions.VehicleNotFoundException;
 import com.upgrad.hirewheels.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,12 +30,12 @@ public class VehicleController {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value= {"/hirewheels/v1/vehicles"})
-    public ResponseEntity getVehicles(@RequestParam(name = "categoryName") String categoryName, @RequestParam(name="pickUpDate") LocalDateTime pickUpDate, @RequestParam(name="dropDate")LocalDateTime dropDate, @RequestParam(name="locationId") int locationId) {
+    @GetMapping(value= {"/hirewheels/v1/vehicles"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getVehicles(@RequestParam(name = "categoryName") String categoryName, @RequestParam(name="pickUpDate") LocalDateTime pickUpDate, @RequestParam(name="dropDate")LocalDateTime dropDate, @RequestParam(name="locationId") int locationId) throws VehicleNotFoundException {
         List<Vehicle> vehicleList=vehicleService.getAllVehicles();
         List<VehicleDTO> vehicleDTOList=new ArrayList<>();
         for(Vehicle vehicle:vehicleList){
-            if(vehicle.getVehicleSubcategory().equals(categoryName)&& vehicle.getLocation().equals(locationId) && vehicle.getBooking().equals(pickUpDate) && vehicle.getBooking().equals(dropDate)) {
+            if(vehicle.getVehicleSubcategory().equals(categoryName)&& vehicle.getLocation().equals(locationId) && vehicle.getBookings().equals(pickUpDate) && vehicle.getBookings().equals(dropDate)) {
                 vehicleDTOList.add(modelMapper.map(vehicle, VehicleDTO.class));
             }
             else{

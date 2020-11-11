@@ -26,15 +26,10 @@ public class HireWheelsApplication {
 
 		ApplicationContext context = SpringApplication.run(HireWheelsApplication.class, args);
 
-		UsersDao usersDao = context.getBean(UsersDao.class);
-		VehicleSubcategoryDao vehicleSubcategoryDao = context.getBean(VehicleSubcategoryDao.class);
-		LocationDao locationDao = context.getBean(LocationDao.class);
-		FuelTypeDao fuelTypeDao = context.getBean(FuelTypeDao.class);
-		VehicleDao vehicleDao = context.getBean(VehicleDao.class);
 
-		InitService initService = context.getBean(InitService.class);
+		/*InitService initService = context.getBean(InitService.class);
         initService.start();
-
+*/
 
 		}
 	@Bean

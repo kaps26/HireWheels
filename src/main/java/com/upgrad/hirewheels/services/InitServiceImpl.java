@@ -3,6 +3,7 @@ package com.upgrad.hirewheels.services;
 import com.upgrad.hirewheels.dao.*;
 import com.upgrad.hirewheels.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,25 +14,40 @@ import java.util.List;
 public class InitServiceImpl implements InitService {
 
     @Autowired
-    private RoleDao userRoleDAO;
+    @Qualifier("roleDao")
+    RoleDao roleDao;
 
     @Autowired
-    private UsersDao usersDAO;
+    @Qualifier("usersDao")
+    UsersDao usersDao;
 
     @Autowired
-    private VehicleCategoryDao vehicleCategoryDAO;
+    @Qualifier("vehicleCategoryDao")
+    VehicleCategoryDao vehicleCategoryDao;
 
     @Autowired
-    private VehicleSubcategoryDao vehicleSubCategoryDAO;
+    @Qualifier("vehicleSubcategoryDao")
+    VehicleSubcategoryDao vehicleSubcategoryDao;
 
     @Autowired
-    private CityDao cityDAO;
+    @Qualifier("vehicleDao")
+    VehicleDao vehicleDao;
 
     @Autowired
-    private FuelTypeDao fuelTypeDAO;
+    @Qualifier("cityDao")
+    CityDao cityDao;
 
     @Autowired
-    private LocationDao locationDAO;
+    @Qualifier("fuelTypeDao")
+    FuelTypeDao fuelTypeDao;
+
+    @Autowired
+    @Qualifier("locationDao")
+    LocationDao locationDao;
+
+    @Autowired
+    @Qualifier("bookingDao")
+    BookingDao bookingDao;
 
 
     public void start() {
@@ -46,68 +62,66 @@ public class InitServiceImpl implements InitService {
 
     private void addLocation() {
         Location location = new Location(1, "Worli",
-                "Dr E Moses Rd, Worli Naka, Upper Worli", cityDAO.findById(11).get(), "400018");
-        locationDAO.save(location);
+                "Dr E Moses Rd, Worli Naka, Upper Worli",400018,cityDao.findById(1).get());
+        locationDao.save(location);
         location = new Location(2, "Chembur",
-                "Optic Complex", cityDAO.findById(11).get(), "400019");
-        locationDAO.save(location);
+                "Optic Complex",400019,cityDao.findById(1).get());
+        locationDao.save(location);
         location = new Location(3, "Powai",
-                "Hiranandani Tower", cityDAO.findById(11).get(), "400020");
-        locationDAO.save(location);
+                "Hiranandani Tower",400020,cityDao.findById(1).get());
+        locationDao.save(location);
     }
-
     private void addFuelType() {
-        List<FuelType> fuelTypeList = Arrays.asList(new FuelType(1, "Petrol"), new FuelType(2, "Diesel"));
-        fuelTypeDAO.saveAll(fuelTypeList);
+        List<FuelType> fuelTypeList = Arrays.asList(new FuelType(1,"Petrol"), new FuelType(2, "Diesel"));
+        fuelTypeDao.saveAll(fuelTypeList);
     }
 
     private void addCity() {
-        cityDAO.save(new City(11, "Mumbai"));
+        cityDao.save(new City(1,"Mumbai"));
     }
 
     private void addVehicleCategory() {
-        List<VehicleCategory> vehicleCategoryList = Arrays.asList(new VehicleCategory(2, "CAR"),
-                new VehicleCategory(1, "BIKE"));
-        vehicleCategoryDAO.saveAll(vehicleCategoryList);
+        List<VehicleCategory> vehicleCategoryList = Arrays.asList(new VehicleCategory(10, "CAR"),
+                new VehicleCategory(11,"BIKE"));
+        vehicleCategoryDao.saveAll(vehicleCategoryList);
     }
 
     private void addVehicleSubCategory() {
-        List<VehicleSubcategory> vehicleSubCategories = new ArrayList<>();
+        List<VehicleSubcategory> vehicleSubcategories = new ArrayList<>();
 
-        vehicleSubCategories.add(new VehicleSubcategory(1, "SUV",
-                300, vehicleCategoryDAO.findById(4).get()));
+        vehicleSubcategories.add(new VehicleSubcategory(1, "SUV",
+                300,vehicleCategoryDao.findByVehicleCategoryId(10) ));
 
-        vehicleSubCategories.add(new VehicleSubcategory(2, "SEDAN",
-                350, vehicleCategoryDAO.findById(4).get()));
+        vehicleSubcategories.add(new VehicleSubcategory(2, "SEDAN",
+                350,vehicleCategoryDao.findByVehicleCategoryId(10) ));
 
-        vehicleSubCategories.add(new VehicleSubcategory(3, "HATCHBACK",
-                250, vehicleCategoryDAO.findById(4).get()));
+        vehicleSubcategories.add(new VehicleSubcategory(3, "HATCHBACK",
+                250,vehicleCategoryDao.findByVehicleCategoryId(10) ));
 
-        vehicleSubCategories.add(new VehicleSubcategory(4, "CRUISER",
-                200, vehicleCategoryDAO.findById(5).get()));
+        vehicleSubcategories.add(new VehicleSubcategory(4, "CRUISER",
+                200,vehicleCategoryDao.findByVehicleCategoryId(11) ));
 
-        vehicleSubCategories.add(new VehicleSubcategory(5, "DIRT BIKE",
-                200, vehicleCategoryDAO.findById(5).get()));
+        vehicleSubcategories.add(new VehicleSubcategory(5, "DIRT BIKE",
+                200,vehicleCategoryDao.findByVehicleCategoryId(11) ));
 
-        vehicleSubCategories.add(new VehicleSubcategory(6, "SPORTS BIKE",
-                150, vehicleCategoryDAO.findById(5).get()));
+        vehicleSubcategories.add(new VehicleSubcategory(6, "SPORTS BIKE",
+                150,vehicleCategoryDao.findByVehicleCategoryId(11) ));
 
-        vehicleSubCategoryDAO.saveAll(vehicleSubCategories);
+        vehicleSubcategoryDao.saveAll(vehicleSubcategories);
     }
 
     private void addUserRole() {
 
-        List<Role> userRoleList = Arrays.asList(new Role(1, "Admin"),
-                new Role(2, "User"));
-        userRoleDAO.saveAll(userRoleList);
+        List<Role> RoleList = Arrays.asList(new Role(1, "Admin"),
+                new Role(2,"User"));
+        roleDao.saveAll(RoleList);
     }
 
 
     private void addUsers() {
-        Users adminUser = new Users("Upgrad", "Admin", "admin@123", "upgrad@gmail.com",
-                "9999999999", 10000, userRoleDAO.findById(1).get());
-        usersDAO.save(adminUser);
+        Users adminUser = new Users("Upgrad","Admin","admin@123","upgrad@gmail.com",
+                "9999999999", 10000,roleDao.findByRoleId(1));
+        usersDao.save(adminUser);
     }
 
 }
-

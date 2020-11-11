@@ -1,27 +1,31 @@
 package com.upgrad.hirewheels.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class FuelType {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "fuel_type_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int fuelTypeId;
 
-    @Column(length = 50, nullable = false, unique = true)
-    private String fuelTypeName;
+    @Column(name="fuel_type",nullable = false,unique = true)
+    private String fuelType;
 
-    @OneToMany(mappedBy = "fuelType",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Vehicle> vehicle;
-
-    public FuelType(int fuelTypeId, String fuelTypeName) {
-        this.fuelTypeId = fuelTypeId;
-        this.fuelTypeName = fuelTypeName;
+    public FuelType(String fuelType) {
+        this.fuelType = fuelType;
     }
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "fuelType",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<Vehicle> vehicles;
+
     public FuelType() {
+
     }
 
     public int getFuelTypeId() {
@@ -32,19 +36,32 @@ public class FuelType {
         this.fuelTypeId = fuelTypeId;
     }
 
-    public String getFuelTypeName() {
-        return fuelTypeName;
+    public String getFuelType() {
+        return fuelType;
     }
 
-    public void setFuelTypeName(String fuelTypeName) {
-        this.fuelTypeName = fuelTypeName;
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(Set<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public FuelType(int fuelTypeId, String fuelType) {
+        this.fuelTypeId = fuelTypeId;
+        this.fuelType = fuelType;
     }
 
     @Override
     public String toString() {
         return "FuelType{" +
                 "fuelTypeId=" + fuelTypeId +
-                ", fuelTypeName='" + fuelTypeName + '\'' +
+                ", fuelType='" + fuelType + '\'' +
                 '}';
     }
 }

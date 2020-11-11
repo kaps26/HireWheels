@@ -37,7 +37,7 @@ public class VehicleServiceTest {
 
         Mockito.when(vehicleSubcategoryDao.findById(1)).thenReturn(Optional.of(new VehicleSubcategory(1, "Sedan", 500, vehicleCategoryDao.findById(1).get())));
 
-        Mockito.when(locationDao.findById(1)).thenReturn(Optional.of(new Location(1, "Naka", "BVM School", cityDao.findById(1).get(), "452001")));
+        Mockito.when(locationDao.findById(1)).thenReturn(Optional.of(new Location(1, "Naka", "BVM School", 452015 , cityDao.findById(1).get())));
 
         Mockito.when(vehicleDao.save(new Vehicle("Model", "Num001" ,vehicleSubcategoryDao.findById(1).get(),
                 "Color", locationDao.findById(1).get(), fuelTypeDao.findById(1).get(), 1, "imageUrl")))
@@ -47,7 +47,7 @@ public class VehicleServiceTest {
         Mockito.when(vehicleDao.findAll()).thenReturn((List<Vehicle>)new Vehicle("Model", "Num001" ,vehicleSubcategoryDao.findById(1).get(),
                 "Color", locationDao.findById(1).get(), fuelTypeDao.findById(1).get(), 1, "imageUrl"));
 
-        Mockito.when(vehicleDao.findByAvailableStatus(1)).thenReturn(Optional.of(new Vehicle("Model", "Num001", vehicleSubcategoryDao.findById(1).get(),
+        Mockito.when(vehicleDao.findByAvailabilityStatus(1)).thenReturn(Optional.of(new Vehicle("Model", "Num001", vehicleSubcategoryDao.findById(1).get(),
                 "Color", locationDao.findById(1).get(), fuelTypeDao.findById(1).get(), 1, "imageUrl")));
 
     }
@@ -62,7 +62,7 @@ public class VehicleServiceTest {
         vehicle.setColor("Color");
         vehicle.setLocation(locationDao.findById(1).get());
         vehicle.setFuelType(fuelTypeDao.findById(1).get());
-        vehicle.setAvailableStatus(1);
+        vehicle.setAvailabilityStatus(1);
         vehicle.setVehicleImageUrl("imageUrl");
         vehicleDao.save(vehicle);
 
@@ -74,7 +74,7 @@ public class VehicleServiceTest {
         Assertions.assertEquals("Color", vehicle.getColor());
         Assertions.assertEquals(locationDao.findById(1).get(), vehicle.getLocation());
         Assertions.assertEquals(fuelTypeDao.findById(1).get(), vehicle.getFuelType());
-        Assertions.assertEquals(1, vehicle.getAvailableStatus());
+        Assertions.assertEquals(1, vehicle.getAvailabilityStatus());
         Assertions.assertEquals("imageUrl", vehicle.getVehicleImageUrl());
 
     }
@@ -89,11 +89,11 @@ public class VehicleServiceTest {
         vehicle.setColor("Color");
         vehicle.setLocation(locationDao.findById(1).get());
         vehicle.setFuelType(fuelTypeDao.findById(1).get());
-        vehicle.setAvailableStatus(1);
+        vehicle.setAvailabilityStatus(1);
         vehicle.setVehicleImageUrl("imageUrl");
         vehicleDao.save(vehicle);
 
-        vehicleDao.findByAvailableStatus(1);
+        vehicleDao.findByAvailabilityStatus(1);
 
         Assertions.assertNotNull(vehicle);
         Assertions.assertTrue(vehicle.getVehicleId() != 0);
@@ -102,7 +102,7 @@ public class VehicleServiceTest {
         Assertions.assertEquals("Color", vehicle.getColor());
         Assertions.assertEquals(locationDao.findById(1).get(), vehicle.getLocation());
         Assertions.assertEquals(fuelTypeDao.findById(1).get(), vehicle.getFuelType());
-        Assertions.assertEquals(1, vehicle.getAvailableStatus());
+        Assertions.assertEquals(1, vehicle.getAvailabilityStatus());
         Assertions.assertEquals("imageUrl", vehicle.getVehicleImageUrl());
 
     }

@@ -1,20 +1,24 @@
 package com.upgrad.hirewheels.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class City {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "city_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int cityId;
 
-    @Column(length = 50, nullable = false)
+    @Column(name="city_name",nullable = false)
     private String cityName;
 
-    @OneToMany(mappedBy = "city",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Location> location;
+    @JsonBackReference
+    @OneToMany(mappedBy = "city",fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    private Set<Location> locations;
 
     public City(int cityId, String cityName) {
         this.cityId = cityId;
@@ -22,6 +26,7 @@ public class City {
     }
 
     public City() {
+
     }
 
     public int getCityId() {
@@ -38,6 +43,14 @@ public class City {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public Set<Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Set<Location> locations) {
+        this.locations = locations;
     }
 
 
