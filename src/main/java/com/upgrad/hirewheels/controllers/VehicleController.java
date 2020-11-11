@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import com.upgrad.hirewheels.dto.VehicleDTO;
 import com.upgrad.hirewheels.entities.Vehicle;
 import com.upgrad.hirewheels.services.VehicleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +22,8 @@ import java.util.List;
 
 @RestController
 public class VehicleController {
+
+    private static  final Logger logger= LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     VehicleService vehicleService;
@@ -42,6 +46,7 @@ public class VehicleController {
                 return null;
             }
         }
+        logger.debug("Vehicle list returned", vehicleDTOList);
         return new ResponseEntity<>(vehicleDTOList,HttpStatus.OK);
     }
 }
